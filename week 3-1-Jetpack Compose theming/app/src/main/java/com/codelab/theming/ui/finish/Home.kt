@@ -17,6 +17,7 @@
 package com.codelab.theming.ui.finish
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -46,6 +47,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -116,13 +118,14 @@ fun Header(
     Surface(
         color = MaterialTheme.colors.onSurface.copy(alpha = 0.1f),
         contentColor = MaterialTheme.colors.primary,
-        modifier = modifier.semantics { heading() }
+        modifier = modifier
     ) {
         Text(
             text = text,
             style = MaterialTheme.typography.subtitle2,
             modifier = Modifier
                 .fillMaxWidth()
+                .background(Color.LightGray)
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         )
     }
@@ -155,11 +158,13 @@ fun FeaturedPost(
                 style = MaterialTheme.typography.h6,
                 modifier = padding
             )
-            Text(
-                text = post.metadata.author.name,
-                style = MaterialTheme.typography.body2,
-                modifier = padding
-            )
+            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                Text(
+                    text = post.metadata.author.name,
+                    modifier = padding
+                )
+            }
+
             PostMetadata(post, padding)
             Spacer(Modifier.height(16.dp))
         }
